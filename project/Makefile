@@ -7,11 +7,13 @@ CFLAGS          = -mmcu=${CPU} -I../h -L/opt/ti/msp430_gcc/include
 CC              = msp430-elf-gcc
 AS		= msp430-elf-as
 AR		= msp430-elf-ar
+RANLIB		= msp430-elf-ranlib
 
 all: run.elf
 
 libTimer.a: clocksTimer.o sr.o
-	$(AR) crs $@ libTimer.a
+	$(AR) cr $@ $^
+	$(RANLIB) $@
 
 #additional rules for files
 run.elf: ${COMMON_OBJECTS} main.o buzzer.o libTimer.a
@@ -21,7 +23,7 @@ load: run.elf
 	msp430loader.sh $^
 
 clean:
-	rm -f *.o *.elf
+	rm -f *.o *.elf libTimer.a
 
 buzzer.o: buzzer.h libTimer.h
 main.o: buzzer.h libTimer.h
