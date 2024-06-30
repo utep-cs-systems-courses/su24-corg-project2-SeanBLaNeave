@@ -13,15 +13,17 @@ void main(void)
 }
 
 static short secCount = 0;
+static char index = 0;
 
 void __interrupt_vec(WDT_VECTOR) WDT() /*250 interrupts/sec */
 {
-  if (secCount >= 2000) {
-    buzzer_off();
+  if (secCount >= 125) {
+    buzzer_set_period(furElise[index]);
     secCount = 0;
+    index++;
   }
-  if (secCount >= 500) {
-    buzzer_set_period(3033.75);
+  if (index == 24) {
+    index = 0;
   }
   secCount++;
 }

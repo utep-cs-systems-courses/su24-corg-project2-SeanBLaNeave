@@ -16,7 +16,7 @@ libTimer.a: clocksTimer.o sr.o
 	$(RANLIB) $@
 
 #additional rules for files
-run.elf: ${COMMON_OBJECTS} main.o buzzer.o libTimer.a
+run.elf: ${COMMON_OBJECTS} main.o buzzer.o fur_elise.o libTimer.a
 	${CC} ${CFLAGS} -o $@ $^
 
 load: run.elf

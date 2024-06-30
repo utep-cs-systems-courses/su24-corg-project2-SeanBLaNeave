@@ -5,4 +5,6 @@ void buzzer_init();
 void buzzer_set_period(short cycles);
 void buzzer_off();
 
+extern const unsigned short furElise[24];
+
 #endif
