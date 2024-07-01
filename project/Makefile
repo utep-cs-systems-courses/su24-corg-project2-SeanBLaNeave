@@ -16,7 +16,7 @@ libTimer.a: clocksTimer.o sr.o
 	$(RANLIB) $@
 
 #additional rules for files
-run.elf: ${COMMON_OBJECTS} main.o buzzer.o fur_elise.o libTimer.a
+run.elf: ${COMMON_OBJECTS} main.o buzzer.o fur_elise.o switches.o libTimer.a
 	${CC} ${CFLAGS} -o $@ $^
 
 load: run.elf
@@ -25,5 +25,5 @@ load: run.elf
 clean:
 	rm -f *.o *.elf libTimer.a
 
-buzzer.o: buzzer.h libTimer.h
-main.o: buzzer.h libTimer.h
+buzzer.o: buzzer.h libTimer.h switches.h
+main.o: buzzer.h libTimer.h switches.h

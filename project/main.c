@@ -1,6 +1,7 @@
 #include <msp430.h>
 #include "libTimer.h"
 #include "buzzer.h"
+#include "switches.h"
 
 void main(void)
 {
@@ -8,22 +9,27 @@ void main(void)
   enableWDTInterrupts();
   
   buzzer_init();
+  switch_init();
 
   or_sr(0x18);
 }
 
-static short secCount = 0;
-static char index = 0;
+void __interrupt_vec(PORT2_VECTOR) Port_2()
+{
+  if (P2IFG & SWITCHES) {
+    P2IFG &= ~SWITCHES;
+    switch_interrupt_handler();
+  }
+}
 
 void __interrupt_vec(WDT_VECTOR) WDT() /*250 interrupts/sec */
 {
-  if (secCount >= 125) {
-    buzzer_set_period(furElise[index]);
-    secCount = 0;
-    index++;
-  }
-  if (index == 24) {
-    index = 0;
-  }
-  secCount++;
+  if (switch_s1_state)
+    fur_elise();
+  if (switch_s2_state)
+    sound_up();
+  if (switch_s3_state)
+    play_sound(1000, 3);
+  if (switch_s4_state)
+    play_sound(1200, 4);
 }
