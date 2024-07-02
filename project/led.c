@@ -64,3 +64,22 @@ void turn_on_green()
     }
   }
 }
+
+static char blink = 2;
+static char num = 0;
+
+void led_blink()
+{
+  if (secCount++ >= 125) {
+    secCount = 0;
+    P1OUT ^= LED_GREEN;
+    num++;
+    if (num >= blink) {
+      blink += 2;
+      num = 0;
+      switch_interrupt_handler();
+      if (blink >= 9)
+	blink = 2;
+    }
+  }
+}
