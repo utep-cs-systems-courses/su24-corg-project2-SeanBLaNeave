@@ -1,7 +1,15 @@
 #include <msp430.h>
 #include "switches.h"
 
-char switch_s1_state, switch_s2_state, switch_s3_state, switch_s4_state;
+char switch_s1_state, switch_s2_state, switch_s3_state, switch_s4_state, switch_s0_state;
+
+void switch_s0_init()
+{
+  P1REN |= S0;
+  P1OUT |= S0;
+  P1IES |= S0;
+  P1IE |= S0;
+}
 
 void switch_init()
 {
@@ -20,4 +28,8 @@ void switch_interrupt_handler()
   switch_s4_state = (p2val & S4) ? 0 : 1;
 }
 
-
+ void switch_s0_interrupt()
+ {
+   char p1val = P1IN;
+   switch_s0_state = (p1val & S0) ? 0 : 1;
+ }
