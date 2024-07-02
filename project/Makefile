@@ -1,5 +1,5 @@
 # makfile configuration
-COMMON_OBJECTS  = 
+COMMON_OBJECTS  = main.o buzzer.o fur_elise.o switches.o led.o
 CPU             = msp430g2553
 CFLAGS          = -mmcu=${CPU} -I../h -L/opt/ti/msp430_gcc/include
 
@@ -16,14 +16,14 @@ libTimer.a: clocksTimer.o sr.o
 	$(RANLIB) $@
 
 #additional rules for files
-run.elf: ${COMMON_OBJECTS} main.o buzzer.o fur_elise.o switches.o led.o libTimer.a
+run.elf: ${COMMON_OBJECTS} libTimer.a
 	${CC} ${CFLAGS} -o $@ $^
 
 load: run.elf
 	msp430loader.sh $^
 
 clean:
-	rm -f *.o *.elf *.o~ libTimer.a
+	rm -f *.o *.elf *.c~ *.h~ libTimer.a
 
 buzzer.o: buzzer.h libTimer.h switches.h
 main.o: buzzer.h libTimer.h switches.h
