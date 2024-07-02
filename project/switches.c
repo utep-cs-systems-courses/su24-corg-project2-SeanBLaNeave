@@ -1,7 +1,9 @@
 #include <msp430.h>
 #include "switches.h"
+#include "led.h"
 
-char switch_s1_state, switch_s2_state, switch_s3_state, switch_s4_state, switch_s0_state;
+char switch_s1_state, switch_s2_state, switch_s3_state, switch_s4_state;
+char switch_s0_state = 1;
 
 void switch_s0_init()
 {
@@ -30,6 +32,6 @@ void switch_interrupt_handler()
 
  void switch_s0_interrupt()
  {
-   char p1val = P1IN;
-   switch_s0_state = (p1val & S0) ? 0 : 1;
+   P1OUT ^= LED_RED;
+   switch_s0_state = (switch_s0_state == 0) ? 1 : 0;
  }

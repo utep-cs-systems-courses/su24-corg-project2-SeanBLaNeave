@@ -16,14 +16,16 @@ libTimer.a: clocksTimer.o sr.o
 	$(RANLIB) $@
 
 #additional rules for files
-run.elf: ${COMMON_OBJECTS} main.o buzzer.o fur_elise.o switches.o libTimer.a
+run.elf: ${COMMON_OBJECTS} main.o buzzer.o fur_elise.o switches.o led.o libTimer.a
 	${CC} ${CFLAGS} -o $@ $^
 
 load: run.elf
 	msp430loader.sh $^
 
 clean:
-	rm -f *.o *.elf libTimer.a
+	rm -f *.o *.elf *.o~ libTimer.a
 
 buzzer.o: buzzer.h libTimer.h switches.h
 main.o: buzzer.h libTimer.h switches.h
+switches.o: led.h switches.h
+led.o: switches.h led.h
