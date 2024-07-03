@@ -53,6 +53,6 @@ void __interrupt_vec(WDT_VECTOR) WDT() /*250 interrupts/sec */
     if (switch_s3_state)
       turn_on_green();
     if (switch_s4_state)
-      led_blink();
+      led_blink_as();
   }
 }
